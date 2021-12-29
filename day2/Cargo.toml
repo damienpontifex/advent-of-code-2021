@@ -3,8 +3,11 @@ name = "day2"
 version = "0.1.0"
 edition = "2021"
 
-[features]
-full-direction-parse = []
-
 [dependencies]
 nom = "7"
+dhat = { version = "0.2", optional = true }
+
+[features]
+full-direction-parse = []
+profile = ["dhat"]
+

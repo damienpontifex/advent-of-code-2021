@@ -1,5 +1,7 @@
 #[cfg(feature = "full-direction-parse")]
 use nom::Finish;
+#[cfg(feature = "profile")]
+use dhat::{Dhat, DhatAlloc};
 
 mod direction;
 mod submarine;
@@ -7,7 +9,14 @@ mod submarine;
 use crate::direction::parse_directions;
 use crate::submarine::{BasicSubmarine, Submarine, SubmarineWithAim};
 
+#[cfg(feature = "profile")]
+#[global_allocator]
+static ALLOCATOR: DhatAlloc = DhatAlloc;
+
 fn main() {
+    #[cfg(feature = "profile")]
+    let _dhat = Dhat::start_heap_profiling();
+
     let input = include_str!("input.txt");
     let output = move_submarine::<BasicSubmarine>(input);
     println!("part 1 output {}", output);
