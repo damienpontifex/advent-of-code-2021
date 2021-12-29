@@ -3,14 +3,14 @@ use nom::Finish;
 mod direction;
 mod submarine;
 use crate::direction::parse_directions;
-use crate::submarine::{Submarine, SubmarineWithAim};
+use crate::submarine::{Submarine, SubmarineWithAim, BasicSubmarine};
 
 fn main() {
     let input = include_str!("input.txt");
-    let output = move_submarine(input);
+    let output = move_submarine::<BasicSubmarine>(input);
     println!("part 1 output {}", output);
 
-    let output = move_submarine_with_aim(input);
+    let output = move_submarine::<SubmarineWithAim>(input);
     println!("part 2 output {}", output);
 
     // Example of parsing the whole file at once
@@ -18,28 +18,16 @@ fn main() {
     println!("List {:?}", output);
 }
 
-fn move_submarine(input: &str) -> i32 {
+fn move_submarine<T>(input: &str) -> i32 where T: Submarine + Default {
     let submarine = input
         .lines()
-        .fold(Submarine::default(), |mut submarine, line| {
+        .fold(T::default(), |mut submarine, line| {
             let direction = line.parse().unwrap();
             submarine.move_in_direction(direction);
             submarine
         });
     submarine.finalize()
 }
-
-fn move_submarine_with_aim(input: &str) -> i32 {
-    let submarine = input
-        .lines()
-        .fold(SubmarineWithAim::default(), |mut submarine, line| {
-            let direction = line.parse().unwrap();
-            submarine.move_in_direction(direction);
-            submarine
-        });
-    submarine.finalize()
-}
-
 
 #[cfg(test)]
 mod tests {

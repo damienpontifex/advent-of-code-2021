@@ -1,13 +1,18 @@
 use crate::direction::Direction;
 
+pub(crate) trait Submarine {
+    fn move_in_direction(&mut self, direction: Direction);
+    fn finalize(&self) -> i32;
+}
+
 #[derive(Default)]
-pub(crate) struct Submarine {
+pub(crate) struct BasicSubmarine {
     x: i32,
     y: i32,
 }
 
-impl Submarine {
-    pub(crate) fn move_in_direction(&mut self, direction: Direction) {
+impl Submarine for BasicSubmarine {
+    fn move_in_direction(&mut self, direction: Direction) {
         match direction {
             Direction::Forward(magnitude) => self.x += magnitude,
             Direction::Up(magnitude) => self.y -= magnitude,
@@ -15,7 +20,7 @@ impl Submarine {
         }
     }
 
-    pub(crate) fn finalize(&self) -> i32 {
+    fn finalize(&self) -> i32 {
         self.x * self.y
     }
 }
@@ -27,8 +32,8 @@ pub(crate) struct SubmarineWithAim {
     aim: i32,
 }
 
-impl SubmarineWithAim {
-    pub(crate) fn move_in_direction(&mut self, direction: Direction) {
+impl Submarine for SubmarineWithAim {
+    fn move_in_direction(&mut self, direction: Direction) {
         match direction {
             Direction::Forward(magnitude) => {
                 self.x += magnitude;
@@ -39,7 +44,7 @@ impl SubmarineWithAim {
         }
     }
 
-    pub(crate) fn finalize(&self) -> i32 {
+    fn finalize(&self) -> i32 {
         self.x * self.y
     }
 }
