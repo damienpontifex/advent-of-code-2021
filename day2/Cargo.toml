@@ -3,5 +3,8 @@ name = "day2"
 version = "0.1.0"
 edition = "2021"
 
+[features]
+full-direction-parse = []
+
 [dependencies]
 nom = "7"

@@ -1,11 +1,13 @@
 use nom::{
     branch::alt,
     bytes::complete::tag,
-    character::complete::{char, i32, newline},
+    character::complete::{char, i32},
     error::Error,
-    multi::separated_list1,
     Finish, IResult,
 };
+#[cfg(feature = "full-direction-parse")]
+use nom::{character::complete::newline, multi::separated_list1};
+
 use std::str::FromStr;
 
 pub(crate) fn parse_direction(input: &str) -> IResult<&str, Direction> {
@@ -21,6 +23,7 @@ pub(crate) fn parse_direction(input: &str) -> IResult<&str, Direction> {
     Ok((input, result))
 }
 
+#[cfg(feature = "full-direction-parse")]
 pub(crate) fn parse_directions(input: &str) -> IResult<&str, Vec<Direction>> {
     // Example of parsing the whole file at once
     separated_list1(newline, parse_direction)(input)

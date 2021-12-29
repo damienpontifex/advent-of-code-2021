@@ -1,7 +1,9 @@
+#[cfg(feature = "full-direction-parse")]
 use nom::Finish;
 
 mod direction;
 mod submarine;
+#[cfg(feature = "full-direction-parse")]
 use crate::direction::parse_directions;
 use crate::submarine::{BasicSubmarine, Submarine, SubmarineWithAim};
 
@@ -13,9 +15,12 @@ fn main() {
     let output = move_submarine::<SubmarineWithAim>(input);
     println!("part 2 output {}", output);
 
-    // Example of parsing the whole file at once
-    let (_rem, output) = parse_directions(input).finish().unwrap();
-    println!("List {:?}", output);
+    #[cfg(feature = "full-direction-parse")]
+    {
+        // Example of parsing the whole file at once
+        let (_rem, output) = parse_directions(input).finish().unwrap();
+        println!("List {:?}", output);
+    }
 }
 
 fn move_submarine<T>(input: &str) -> i32
