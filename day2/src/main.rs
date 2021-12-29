@@ -47,7 +47,7 @@ forward 8
 up 3
 down 8
 forward 2";
-        assert_eq!(move_submarine(input), 150);
+        assert_eq!(move_submarine::<BasicSubmarine>(input), 150);
     }
 
     #[test]
@@ -58,6 +58,6 @@ forward 8
 up 3
 down 8
 forward 2";
-        assert_eq!(move_submarine_with_aim(input), 900);
+        assert_eq!(move_submarine::<SubmarineWithAim>(input), 900);
     }
 }
