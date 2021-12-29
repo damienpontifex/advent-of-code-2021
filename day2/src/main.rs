@@ -3,7 +3,7 @@ use nom::Finish;
 mod direction;
 mod submarine;
 use crate::direction::parse_directions;
-use crate::submarine::{Submarine, SubmarineWithAim, BasicSubmarine};
+use crate::submarine::{BasicSubmarine, Submarine, SubmarineWithAim};
 
 fn main() {
     let input = include_str!("input.txt");
@@ -18,14 +18,15 @@ fn main() {
     println!("List {:?}", output);
 }
 
-fn move_submarine<T>(input: &str) -> i32 where T: Submarine + Default {
-    let submarine = input
-        .lines()
-        .fold(T::default(), |mut submarine, line| {
-            let direction = line.parse().unwrap();
-            submarine.move_in_direction(direction);
-            submarine
-        });
+fn move_submarine<T>(input: &str) -> i32
+where
+    T: Submarine + Default,
+{
+    let submarine = input.lines().fold(T::default(), |mut submarine, line| {
+        let direction = line.parse().unwrap();
+        submarine.move_in_direction(direction);
+        submarine
+    });
     submarine.finalize()
 }
 

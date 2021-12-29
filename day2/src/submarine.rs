@@ -38,7 +38,7 @@ impl Submarine for SubmarineWithAim {
             Direction::Forward(magnitude) => {
                 self.x += magnitude;
                 self.y += self.aim * magnitude;
-            },
+            }
             Direction::Up(magnitude) => self.aim -= magnitude,
             Direction::Down(magnitude) => self.aim += magnitude,
         }
@@ -48,4 +48,3 @@ impl Submarine for SubmarineWithAim {
         self.x * self.y
     }
 }
-
