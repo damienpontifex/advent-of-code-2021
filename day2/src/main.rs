@@ -1,4 +1,11 @@
-use nom::{IResult, Finish, error::Error, bytes::complete::tag, branch::alt, character::complete::{i32, char, newline}, multi::separated_list1};
+use nom::{
+    branch::alt,
+    bytes::complete::tag,
+    character::complete::{char, i32, newline},
+    error::Error,
+    multi::separated_list1,
+    Finish, IResult,
+};
 use std::str::FromStr;
 
 fn main() {
@@ -7,16 +14,20 @@ fn main() {
     println!("part 1 output {}", output);
 
     // Example of parsing the whole file at once
-    let (_rem, output) = separated_list1(newline, parse_direction)(input).finish().unwrap();
+    let (_rem, output) = separated_list1(newline, parse_direction)(input)
+        .finish()
+        .unwrap();
     println!("List {:?}", output);
 }
 
 fn move_submarine(input: &str) -> i32 {
-    let submarine = input.lines().fold(Submarine::default(), |mut submarine, line| {
-        let direction = line.parse().unwrap();
-        submarine.move_in_direction(direction);
-        submarine
-    });
+    let submarine = input
+        .lines()
+        .fold(Submarine::default(), |mut submarine, line| {
+            let direction = line.parse().unwrap();
+            submarine.move_in_direction(direction);
+            submarine
+        });
     submarine.finalize()
 }
 
@@ -49,7 +60,7 @@ impl FromStr for Direction {
             Err(Error { input, code }) => Err(Error {
                 input: input.to_string(),
                 code,
-            })
+            }),
         }
     }
 }
@@ -89,4 +100,3 @@ forward 2";
         assert_eq!(move_submarine(input), 150);
     }
 }
-
